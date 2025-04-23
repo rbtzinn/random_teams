@@ -1,0 +1,176 @@
+.tournament-creator {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #f8f9fa;
+    padding: 2rem;
+
+    .tournament-card {
+        background-color: white;
+        border-radius: 1rem;
+        padding: 2rem;
+        box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
+        width: 100%;
+        max-width: 800px;
+
+        .tournament-title {
+            color: #2c3e50;
+            margin-bottom: 0.5rem;
+            text-align: center;
+        }
+
+        .tournament-subtitle {
+            color: #7f8c8d;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .section-title {
+            color: #2c3e50;
+            margin: 1.5rem 0 1rem;
+        }
+
+        .team-input-container {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1rem;
+
+            button {
+                white-space: nowrap;
+            }
+        }
+
+        .teams-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+            margin-bottom: 1.5rem;
+
+            .team-item {
+                background-color: #f0ad4e;
+                color: white;
+                padding: 0.5rem 1rem;
+                border-radius: 0.5rem;
+                display: flex;
+                align-items: center;
+                gap: 0.5rem;
+
+                .remove-btn {
+                    background: none;
+                    border: none;
+                    color: white;
+                    font-weight: bold;
+                    cursor: pointer;
+                    padding: 0 0.25rem;
+                    font-size: 1.25rem;
+                    line-height: 1;
+                }
+            }
+        }
+
+        .round-title {
+            color: #f0ad4e;
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .matches-container {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            margin-bottom: 2rem;
+
+            .match-card {
+                background-color: #f8f9fa;
+                border-radius: 0.5rem;
+                padding: 1rem;
+                box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+
+                .match-teams {
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    gap: 1rem;
+
+                    button {
+                        flex: 1;
+                        padding: 0.75rem;
+                        border: 2px solid #f0ad4e;
+                        border-radius: 0.5rem;
+                        background-color: white;
+                        color: #2c3e50;
+                        font-weight: 500;
+                        cursor: pointer;
+                        transition: all 0.2s;
+
+                        &:hover {
+                            background-color: #f0ad4e;
+                            color: white;
+                        }
+                    }
+
+                    span {
+                        color: #7f8c8d;
+                        font-weight: bold;
+                    }
+
+                    .bye {
+                        color: #f0ad4e;
+                        font-style: italic;
+                    }
+                }
+
+                .match-result {
+                    display: flex;
+                    flex-direction: column;
+                    gap: 0.5rem;
+
+                    span {
+                        padding: 0.5rem;
+                        border-radius: 0.25rem;
+                    }
+
+                    .winner {
+                        background-color: #5cb85c;
+                        color: white;
+                        font-weight: bold;
+                    }
+
+                    .bye {
+                        color: #f0ad4e;
+                        font-style: italic;
+                    }
+                }
+            }
+        }
+
+        .actions {
+            display: flex;
+            justify-content: center;
+        }
+    }
+}
+
+@media (max-width: 768px) {
+    .tournament-creator {
+        padding: 1rem;
+
+        .tournament-card {
+            padding: 1.5rem;
+        }
+
+        .team-input-container {
+            flex-direction: column;
+        }
+
+        .match-teams {
+            flex-direction: column;
+            gap: 0.5rem !important;
+
+            button {
+                width: 100%;
+            }
+        }
+    }
+}

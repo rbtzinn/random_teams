@@ -1,0 +1,69 @@
+@use "sass:color";
+@use '../../assets/styles/variables' as *;
+
+.btn-primario {
+    background-color: $cor-primaria;
+    border-color: color.adjust($cor-primaria, $lightness: -5%);
+    color: $cor-texto;
+    padding: 8px;
+    border: none;
+    border-radius: 10px;
+
+    &:hover,
+    &:focus {
+        background-color: color.adjust($cor-primaria, $lightness: -10%);
+        border-color: color.adjust($cor-primaria, $lightness: -15%);
+        color: $cor-texto;
+    }
+}
+
+.btn-outline-primario {
+    border-color: $cor-primaria;
+    color: $cor-primaria;
+    padding: 8px;
+    border: none;
+    border-radius: 10px;
+
+    &:hover,
+    &:focus {
+        background-color: $cor-primaria;
+        color: $cor-texto;
+    }
+}
+
+.btn-secundario {
+    background-color: $cor-secundaria;
+    border-color: color.adjust($cor-secundaria, $lightness: -5%);
+    color: white;
+    padding: 8px;
+    border: none;
+    border-radius: 10px;
+
+    &:hover,
+    &:focus {
+        background-color: color.adjust($cor-secundaria, $lightness: -10%);
+        border-color: color.adjust($cor-secundaria, $lightness: -15%);
+    }
+}
+
+.btn-outline-secundario {
+    border-color: $cor-secundaria;
+    color: $cor-secundaria;
+    padding: 8px;
+    border: none;
+    border-radius: 10px;
+
+    &:hover,
+    &:focus {
+        background-color: $cor-secundaria;
+        color: white;
+    }
+}
+
+.hover-scale {
+    transition: transform 0.2s ease;
+
+    &:hover {
+        transform: scale(1.05);
+    }
+}

@@ -1,0 +1,16 @@
+@use '../../assets/styles/variables' as *;
+
+.text-custom {
+    color: $cor-texto;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+
+    &.titulo {
+        font-size: 2rem;
+        font-weight: bold;
+    }
+
+    &.subtitulo {
+        font-size: 1.25rem;
+        color: $cor-secundaria;
+    }
+}

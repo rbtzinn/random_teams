@@ -1,0 +1,109 @@
+@use 'sass:color';
+@use '../../assets/styles/variables' as *;
+
+.navbar-custom {
+    background-color: $cor-secundaria;
+    padding: 0.5rem 1rem;
+
+    .navbar-brand {
+        font-weight: 600;
+        color: $cor-primaria;
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+
+        span {
+            color: $cor-texto;
+        }
+
+        &:hover {
+            color: color.scale($cor-primaria, $lightness: -10%);
+        }
+
+        .brand-icon {
+            font-size: 1.5rem;
+            color: $cor-texto;
+            transition: transform 0.3s ease;
+        }
+
+        &:hover .brand-icon {
+            transform: rotate(-15deg);
+        }
+    }
+
+    .nav-link {
+        color: $cor-texto;
+        font-weight: 500;
+        padding: 0.5rem 1rem;
+        border-radius: 0.5rem;
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+
+        &:hover,
+        &.active {
+            color: $cor-primaria;
+            background-color: color.scale($cor-primaria, $alpha: -90%);
+            transform: translateY(-2px);
+        }
+
+        svg {
+            color: $cor-primaria;
+            transition: transform 0.3s ease;
+        }
+
+        &:hover svg {
+            transform: scale(1.1);
+        }
+    }
+
+    .navbar-toggler {
+        border: none;
+        padding: 0.5rem;
+        transition: all 0.3s ease;
+
+        &:focus {
+            box-shadow: 0 0 0 0.25rem color.scale($cor-primaria, $alpha: -80%);
+            outline: none;
+        }
+
+        .navbar-toggler-icon {
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='#{color.adjust($cor-texto, $alpha: -0.3)}' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+            transition: all 0.3s ease;
+        }
+
+        &:hover .navbar-toggler-icon {
+            transform: scale(1.1);
+        }
+    }
+}
+
+@media (max-width: 992px) {
+    .navbar-custom {
+        .navbar-collapse {
+            background-color: color.scale($cor-secundaria, $lightness: -5%);
+            padding: 1rem;
+            margin-top: 0.5rem;
+            border-radius: 0.5rem;
+            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
+        }
+
+        .nav-item {
+            margin-bottom: 0.5rem;
+
+            &:last-child {
+                margin-bottom: 0;
+            }
+        }
+
+        .nav-link {
+            padding: 0.75rem 1rem;
+
+            &:hover {
+                transform: translateX(5px);
+            }
+        }
+    }
+}
