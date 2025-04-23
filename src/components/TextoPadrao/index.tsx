@@ -1,14 +1,13 @@
-import React from 'react';
-import './textopadrao.scss'
+import { ElementType } from 'react';
+import './textopadrao.scss';
 
 interface TextoPadraoProps {
     texto: string;
-    as?: keyof JSX.IntrinsicElements;
+    as?: ElementType;
     className?: string;
 }
 
-const TextoPadrao: React.FC<TextoPadraoProps> = ({ texto, as = 'p', className = '' }) => {
-    const Tag = as;
+const TextoPadrao: React.FC<TextoPadraoProps> = ({ texto, as: Tag = 'p', className = '' }) => {
     return <Tag className={`text-custom ${className}`}>{texto}</Tag>;
 };
 
