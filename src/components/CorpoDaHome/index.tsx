@@ -21,6 +21,14 @@ export const CorpoDaHome: React.FC = () => {
                             hoverScale={1.05}
                         />
                     </Link>
+                    <Link to="/criar-torneio">
+                        <ButtonPadrao
+                            texto="Criar Torneio"
+                            variant="primario"
+                            className="me-3"
+                            hoverScale={1.05}
+                        />
+                    </Link>
                     </div>
                 </div>
             </section>

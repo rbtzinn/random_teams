@@ -7,7 +7,9 @@ import './criador.scss';
 const CriadorDeTimes: React.FC = () => {
     const [playerName, setPlayerName] = useState('');
     const [players, setPlayers] = useState<string[]>([]);
-    const [teams, setTeams] = useState<{ team1: string[]; team2: string[] }>({ team1: [], team2: [] });
+    const [numTeams, setNumTeams] = useState(2);
+    const [teamNames, setTeamNames] = useState<string[]>(['Time 1', 'Time 2']);
+    const [teams, setTeams] = useState<string[][]>([]);
 
     const handleAddPlayer = () => {
         if (playerName.trim()) {
@@ -22,20 +24,37 @@ const CriadorDeTimes: React.FC = () => {
         }
     };
 
+    const handleNumTeamsChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const value = parseInt(e.target.value);
+        if (value > 1 && value <= players.length) {
+            setNumTeams(value);
+            setTeamNames(Array.from({ length: value }, (_, i) => `Time ${i + 1}`));
+            setTeams([]);
+        }
+    };
+
+    const handleTeamNameChange = (index: number, newName: string) => {
+        const updated = [...teamNames];
+        updated[index] = newName;
+        setTeamNames(updated);
+    };
+
     const shuffleAndDivideTeams = () => {
         const shuffled = [...players].sort(() => 0.5 - Math.random());
-        const half = Math.ceil(shuffled.length / 2);
-        setTeams({
-            team1: shuffled.slice(0, half),
-            team2: shuffled.slice(half),
+        const newTeams: string[][] = Array.from({ length: numTeams }, () => []);
+
+        shuffled.forEach((player, index) => {
+            newTeams[index % numTeams].push(player);
         });
+
+        setTeams(newTeams);
     };
 
     const removePlayer = (index: number) => {
         const newPlayers = [...players];
         newPlayers.splice(index, 1);
         setPlayers(newPlayers);
-        setTeams({ team1: [], team2: [] });
+        setTeams([]);
     };
 
     return (
@@ -51,23 +70,36 @@ const CriadorDeTimes: React.FC = () => {
                                     <InputPadrao
                                         placeholder="Nome do jogador"
                                         value={playerName}
-                                        onChange={(e: React.ChangeEvent<HTMLInputElement>) => setPlayerName(e.target.value)}
+                                        onChange={(e) => setPlayerName(e.target.value)}
                                         onKeyPress={handleKeyPress}
                                         className="form-control-lg"
                                     />
                                 </div>
-                                    <ButtonPadrao
-                                        texto="Adicionar"
-                                        onClick={handleAddPlayer}
-                                        className="btn-primary btn-lg"
-                                    />
+                                <ButtonPadrao
+                                    texto="Adicionar"
+                                    onClick={handleAddPlayer}
+                                    className="btn-primary btn-lg"
+                                />
+                            </div>
+
+                            <div className="mb-4">
+                                <label htmlFor="numTeams" className="form-label">Número de times:</label>
+                                <input
+                                    id="numTeams"
+                                    type="number"
+                                    min={2}
+                                    max={players.length || 2}
+                                    value={numTeams}
+                                    onChange={handleNumTeamsChange}
+                                    className="form-control"
+                                />
                             </div>
 
                             <div className="d-grid mb-4">
                                 <ButtonPadrao
                                     texto="Sortear Times"
                                     onClick={shuffleAndDivideTeams}
-                                    disabled={players.length < 2}
+                                    disabled={players.length < numTeams}
                                     className="btn-primary btn-lg"
                                 />
                             </div>
@@ -93,34 +125,29 @@ const CriadorDeTimes: React.FC = () => {
                                 </div>
                             )}
 
-                            {teams.team1.length > 0 && teams.team2.length > 0 && (
+                            {teams.length > 0 && (
                                 <div className="teams-section">
                                     <TextoPadrao texto="Times Sorteados" as="h5" className="mb-3 text-center" />
                                     <div className="row g-4">
-                                        <div className="col-md-6">
-                                            <div className="team-card team-1">
-                                                <TextoPadrao texto={`Time 1 (${teams.team1.length})`} as="h4" className="team-header" />
-                                                <ul className="team-members">
-                                                    {teams.team1.map((p, idx) => (
-                                                        <li key={idx} className="team-member">
-                                                            <span className="member-number">{idx + 1}.</span> {p}
-                                                        </li>
-                                                    ))}
-                                                </ul>
+                                        {teams.map((team, index) => (
+                                            <div key={index} className="col-md-6">
+                                                <div className={`team-card team-${index + 1}`}>
+                                                    <input
+                                                        type="text"
+                                                        value={teamNames[index]}
+                                                        onChange={(e) => handleTeamNameChange(index, e.target.value)}
+                                                        className="form-control team-header mb-2"
+                                                    />
+                                                    <ul className="team-members">
+                                                        {team.map((p, idx) => (
+                                                            <li key={idx} className="team-member">
+                                                                <span className="member-number">{idx + 1}.</span> {p}
+                                                            </li>
+                                                        ))}
+                                                    </ul>
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div className="col-md-6">
-                                            <div className="team-card team-2">
-                                                <TextoPadrao texto={`Time 2 (${teams.team2.length})`} as="h4" className="team-header" />
-                                                <ul className="team-members">
-                                                    {teams.team2.map((p, idx) => (
-                                                        <li key={idx} className="team-member">
-                                                            <span className="member-number">{idx + 1}.</span> {p}
-                                                        </li>
-                                                    ))}
-                                                </ul>
-                                            </div>
-                                        </div>
+                                        ))}
                                     </div>
                                 </div>
                             )}
