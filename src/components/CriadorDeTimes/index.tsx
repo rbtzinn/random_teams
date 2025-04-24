@@ -4,32 +4,30 @@ import ButtonPadrao from '../ButtonPadrao';
 import TextoPadrao from '../TextoPadrao';
 import './criador.scss';
 
+interface Player {
+  name: string;
+  level: number;
+}
+
 const CriadorDeTimes: React.FC = () => {
     const [playerName, setPlayerName] = useState('');
-    const [players, setPlayers] = useState<string[]>([]);
+    const [playerLevel, setPlayerLevel] = useState(1);
+    const [players, setPlayers] = useState<Player[]>([]);
     const [numTeams, setNumTeams] = useState(2);
     const [teamNames, setTeamNames] = useState<string[]>(['Time 1', 'Time 2']);
-    const [teams, setTeams] = useState<string[][]>([]);
+    const [teams, setTeams] = useState<Player[][]>([]);
 
     const handleAddPlayer = () => {
         if (playerName.trim()) {
-            setPlayers([...players, playerName.trim()]);
+            setPlayers([...players, { name: playerName.trim(), level: playerLevel }]);
             setPlayerName('');
+            setPlayerLevel(1);
         }
     };
 
     const handleKeyPress = (e: React.KeyboardEvent) => {
         if (e.key === 'Enter') {
             handleAddPlayer();
-        }
-    };
-
-    const handleNumTeamsChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const value = parseInt(e.target.value);
-        if (value > 1 && value <= players.length) {
-            setNumTeams(value);
-            setTeamNames(Array.from({ length: value }, (_, i) => `Time ${i + 1}`));
-            setTeams([]);
         }
     };
 
@@ -40,11 +38,20 @@ const CriadorDeTimes: React.FC = () => {
     };
 
     const shuffleAndDivideTeams = () => {
-        const shuffled = [...players].sort(() => 0.5 - Math.random());
-        const newTeams: string[][] = Array.from({ length: numTeams }, () => []);
-
-        shuffled.forEach((player, index) => {
-            newTeams[index % numTeams].push(player);
+        // Ordena os jogadores por nível (do maior para o menor)
+        const sortedByLevel = [...players].sort((a, b) => b.level - a.level);
+        const newTeams: Player[][] = Array.from({ length: numTeams }, () => []);
+        
+        // Distribui os jogadores balanceadamente
+        sortedByLevel.forEach((player, index) => {
+            // Alterna entre os times para distribuir os jogadores de alto nível
+            const teamIndex = index % numTeams;
+            newTeams[teamIndex].push(player);
+        });
+        
+        // Embaralha os jogadores dentro de cada time para não ficar na ordem de nível
+        newTeams.forEach(team => {
+            team.sort(() => 0.5 - Math.random());
         });
 
         setTeams(newTeams);
@@ -64,9 +71,8 @@ const CriadorDeTimes: React.FC = () => {
                     <div className="col-lg-8">
                         <div className="team-creator-card p-4 shadow-sm rounded">
                             <TextoPadrao texto="Criador de Times" as="h2" className="text-center mb-4" />
-
                             <div className="add-player-section mb-4">
-                                <div className="input-group">
+                                <div className="input-group mb-2">
                                     <InputPadrao
                                         placeholder="Nome do jogador"
                                         value={playerName}
@@ -75,6 +81,19 @@ const CriadorDeTimes: React.FC = () => {
                                         className="form-control-lg"
                                     />
                                 </div>
+                                <div className="d-block align-items-center gap-3 mb-3">
+                                    <label htmlFor="playerLevel" className="form-label mb-0">Nível do jogador:</label>
+                                    <select 
+                                        id="playerLevel"
+                                        className="form-select"
+                                        value={playerLevel}
+                                        onChange={(e) => setPlayerLevel(Number(e.target.value))}
+                                    >
+                                        {[1, 2, 3, 4, 5].map(level => (
+                                            <option key={level} value={level}>{level}</option>
+                                        ))}
+                                    </select>
+                                </div>
                                 <ButtonPadrao
                                     texto="Adicionar"
                                     onClick={handleAddPlayer}
@@ -82,16 +101,33 @@ const CriadorDeTimes: React.FC = () => {
                                 />
                             </div>
 
-                            <div className="mb-4">
-                                <label htmlFor="numTeams" className="form-label">Número de times:</label>
-                                <input
-                                    id="numTeams"
-                                    type="number"
-                                    min={2}
-                                    max={players.length || 2}
-                                    value={numTeams}
-                                    onChange={handleNumTeamsChange}
-                                    className="form-control"
+                            <div className="num-teams-control mb-4 d-flex align-items-center gap-3 justify-content-center">
+                                <ButtonPadrao
+                                    texto="−"
+                                    onClick={() => {
+                                        if (numTeams > 2) {
+                                            setNumTeams(numTeams - 1);
+                                            setTeamNames(Array.from({ length: numTeams - 1 }, (_, i) => `Time ${i + 1}`));
+                                            setTeams([]);
+                                        }
+                                    }}
+                                    size="sm"
+                                    variant="outline-primario"
+                                    hoverScale={false}
+                                />
+                                <span className="fw-bold fs-5">{numTeams} {numTeams === 1 ? 'time' : 'times'}</span>
+                                <ButtonPadrao
+                                    texto="+"
+                                    onClick={() => {
+                                        if (numTeams < players.length) {
+                                            setNumTeams(numTeams + 1);
+                                            setTeamNames(Array.from({ length: numTeams + 1 }, (_, i) => `Time ${i + 1}`));
+                                            setTeams([]);
+                                        }
+                                    }}
+                                    size="sm"
+                                    variant="outline-primario"
+                                    hoverScale={false}
                                 />
                             </div>
 
@@ -110,7 +146,9 @@ const CriadorDeTimes: React.FC = () => {
                                     <div className="players-list">
                                         {players.map((player, index) => (
                                             <div key={index} className="player-badge">
-                                                <span>{player}</span>
+                                                <span>
+                                                    {player.name} (Nível {player.level})
+                                                </span>
                                                 <button
                                                     onClick={() => removePlayer(index)}
                                                     className="btn-close btn-close-white"
@@ -129,25 +167,35 @@ const CriadorDeTimes: React.FC = () => {
                                 <div className="teams-section">
                                     <TextoPadrao texto="Times Sorteados" as="h5" className="mb-3 text-center" />
                                     <div className="row g-4">
-                                        {teams.map((team, index) => (
-                                            <div key={index} className="col-md-6">
-                                                <div className={`team-card team-${index + 1}`}>
-                                                    <input
-                                                        type="text"
-                                                        value={teamNames[index]}
-                                                        onChange={(e) => handleTeamNameChange(index, e.target.value)}
-                                                        className="form-control team-header mb-2"
-                                                    />
-                                                    <ul className="team-members">
-                                                        {team.map((p, idx) => (
-                                                            <li key={idx} className="team-member">
-                                                                <span className="member-number">{idx + 1}.</span> {p}
-                                                            </li>
-                                                        ))}
-                                                    </ul>
+                                        {teams.map((team, index) => {
+                                            const averageLevel = team.reduce((sum, player) => sum + player.level, 0) / team.length;
+                                            
+                                            return (
+                                                <div key={index} className="col-md-6">
+                                                    <div className={`team-card team-${index + 1}`}>
+                                                        <div className="d-flex align-items-center gap-2 mb-2">
+                                                            <input
+                                                                type="text"
+                                                                value={teamNames[index]}
+                                                                onChange={(e) => handleTeamNameChange(index, e.target.value)}
+                                                                className="form-control team-header"
+                                                            />
+                                                            <span className="badge bg-secondary">
+                                                                Média: {averageLevel.toFixed(1)}
+                                                            </span>
+                                                        </div>
+                                                        <ul className="team-members">
+                                                            {team.map((p, idx) => (
+                                                                <li key={idx} className="team-member">
+                                                                    <span className="member-number">{idx + 1}.</span> 
+                                                                    {p.name} <span className="text-muted">(Nível {p.level})</span>
+                                                                </li>
+                                                            ))}
+                                                        </ul>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                        ))}
+                                            );
+                                        })}
                                     </div>
                                 </div>
                             )}

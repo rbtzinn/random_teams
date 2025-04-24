@@ -1,3 +1,4 @@
+@use "sass:list";
 @use '../../assets/styles/variables' as *;
 
 .team-creator-container {
@@ -8,12 +9,20 @@
     .team-creator-card {
         background-color: $cor-fundo;
         border-radius: 12px;
+
+        @media (max-width:768px) {
+            text-align: center;
+        }
     }
 
     .add-player-section {
         .input-group {
             border-radius: 8px;
             overflow: hidden;
+
+            @media (max-width:768px) {
+                justify-content:center;
+            }
 
             input {
                 border: none;
@@ -92,8 +101,8 @@
             .team-header {
                 padding-bottom: 0.5rem;
                 margin-bottom: 1rem;
-                border-bottom: 2px solid;
                 text-align: center;
+                border: none;
             }
 
             .team-members {
@@ -123,20 +132,6 @@
                 }
             }
         }
-
-        .team-1 {
-            .team-header {
-                color: $cor-texto;
-                border-bottom-color: $cor-primaria;
-            }
-        }
-
-        .team-2 {
-            .team-header {
-                color: $cor-texto;
-                border-bottom-color: $cor-primaria;
-            }
-        }
     }
 
     @media (max-width: 768px) {
@@ -152,39 +147,49 @@
     }
 }
 
-.teams-section {
-    .team-card {
-        display: flex;
-        flex-direction: column;
-        align-items: stretch;
+$team-colors: #FF5733, #33A1FF, #33FF57, #FF33A1, #A133FF, #33FFF5, #FFD733;
 
-        input.team-header {
-            text-align: center;
-            font-size: 1.25rem;
-            font-weight: bold;
-            border: none;
-            border-bottom: 2px solid $cor-primaria;
-            margin-bottom: 1rem;
-            padding-bottom: 0.5rem;
-            background-color: transparent;
-            color: $cor-texto;
+.team-card {
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 20px;
+    background-color: #f8f9fa;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border-bottom: 4px solid;
 
-            &:focus {
-                outline: none;
-                box-shadow: none;
-                border-bottom-color:$cor-primaria;
-            }
+    @for $i from 1 through list.length($team-colors) {
+        &.team-#{$i} {
+            border-bottom-color: list.nth($team-colors, $i);
         }
     }
+}
 
-    .row.g-4 {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 1.5rem;
+.team-header {
+    font-weight: bold;
+    font-size: 1.2rem;
+    text-align: center;
+    border: none;
+    background: transparent;
+    margin-bottom: 10px;
+    padding-bottom: 5px;
+    border-bottom: 2px solid #dee2e6;
+}
 
-        .col-md-6 {
-            flex: 1 1 45%;
-            min-width: 250px;
-        }
+.team-members {
+    list-style: none;
+    padding: 0;
+}
+
+.team-member {
+    padding: 8px 0;
+    border-bottom: 1px solid #eee;
+
+    &:last-child {
+        border-bottom: none;
+    }
+
+    .member-number {
+        color: #6c757d;
+        margin-right: 5px;
     }
 }
