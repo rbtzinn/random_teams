@@ -44,8 +44,6 @@
 
         &:hover,
         &.active {
-            color: $cor-primaria;
-            background-color: color.scale($cor-primaria, $alpha: -90%);
             transform: translateY(-2px);
         }
 
@@ -83,15 +81,15 @@
 @media (max-width: 992px) {
     .navbar-custom {
         .navbar-collapse {
-            background-color: color.scale($cor-secundaria, $lightness: -5%);
             padding: 1rem;
             margin-top: 0.5rem;
             border-radius: 0.5rem;
-            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
         }
 
         .nav-item {
             margin-bottom: 0.5rem;
+            border-radius: 10px;
+            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
 
             &:last-child {
                 margin-bottom: 0;

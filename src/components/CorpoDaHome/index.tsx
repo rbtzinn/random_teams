@@ -1,6 +1,7 @@
 import React from 'react';
 import ButtonPadrao from '../ButtonPadrao';
 import './CorpoDaHome.scss';
+import { ChevronUp } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 export const CorpoDaHome: React.FC = () => {
@@ -13,22 +14,22 @@ export const CorpoDaHome: React.FC = () => {
                         Gerencie seus jogadores e forme equipes balanceadas para qualquer esporte
                     </p>
                     <div className="hero-actions">
-                    <Link to="/criar-times">
-                        <ButtonPadrao
-                            texto="Criar Times"
-                            variant="primario"
-                            className="me-3"
-                            hoverScale={1.05}
-                        />
-                    </Link>
-                    <Link to="/criar-torneio">
-                        <ButtonPadrao
-                            texto="Criar Torneio"
-                            variant="primario"
-                            className="me-3"
-                            hoverScale={1.05}
-                        />
-                    </Link>
+                        <Link to="/criar-times">
+                            <ButtonPadrao
+                                texto="Criar Times"
+                                variant="primario"
+                                className="me-3"
+                                hoverScale={1.05}
+                            />
+                        </Link>
+                        <Link to="/criar-torneio">
+                            <ButtonPadrao
+                                texto="Criar Torneio"
+                                variant="primario"
+                                className="me-3"
+                                hoverScale={1.05}
+                            />
+                        </Link>
                     </div>
                 </div>
             </section>
@@ -69,8 +70,18 @@ export const CorpoDaHome: React.FC = () => {
                 <div className="container text-center">
                     <h2 className="mb-4">Pronto para começar?</h2>
                     <p className="lead mb-4">Crie seu primeiro time em menos de 1 minuto</p>
+                    <ButtonPadrao
+                        texto={<ChevronUp size={32} />}
+                        onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+                        aria-label="Voltar ao topo"
+                        variant="primario"
+                        size="lg"
+                        className="scroll-top-btn"
+                        hoverScale={1.1}
+                    />
                 </div>
             </section>
+
         </div>
     );
 };

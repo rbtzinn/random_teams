@@ -2,7 +2,7 @@ import React from 'react';
 import './btnpadrao.scss';
 
 interface Props extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-    texto: string;
+    texto: React.ReactNode;
     variant?: 'primario' | 'secundario' | 'outline-primario' | 'outline-secundario' | 'success';
     size?: 'sm' | 'md' | 'lg';
     hoverScale?: number | false;
