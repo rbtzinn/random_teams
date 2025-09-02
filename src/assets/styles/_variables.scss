@@ -1,36 +1,39 @@
-/* Definição de cores como CSS Custom Properties.
-  Isso permite que o navegador troque as cores dinamicamente.
-*/
 :root {
-  /* Tema Claro (Padrão) */
+  // Tema Claro (Padrão)
   --cor-primaria: #f0ad4e;
+  --cor-primaria-rgb: 240, 173, 78;
   --cor-fundo: #f8f9fa;
+  --cor-fundo-secundaria: #e9ecef;
   --cor-fundo-card: #ffffff;
-  --cor-secundaria: #6c757d;
-  --cor-texto: #212529;
-  --cor-texto-suave: #6c757d;
-  --cor-borda-suave: #dee2e6;
-  --cor-sucesso: #198754;
-  --cor-texto-sucesso: #ffffff;
+  --cor-fundo-input: #ffffff;
+  --cor-texto: #495057;
+  --cor-texto-forte: #212529;
+  --cor-borda: #ced4da;
+  --cor-borda-suave: #f1f3f5;
+  --cor-sucesso: #28a745;
+  --cor-texto-botao: #212529;
 }
 
-[data-theme="dark"] {
-  /* Tema Escuro (ativado quando o <html> tem o atributo data-theme="dark") */
+[data-theme='dark'] {
+  // Tema Escuro
   --cor-primaria: #f0ad4e;
+  --cor-primaria-rgb: 240, 173, 78;
   --cor-fundo: #121212;
-  --cor-fundo-card: #1e1e1e;
-  --cor-secundaria: #89929a;
-  --cor-texto: #e9ecef;
-  --cor-texto-suave: #adb5bd;
-  --cor-borda-suave: #495057;
-  --cor-sucesso: #20c997;
-  --cor-texto-sucesso: #121212;
+  --cor-fundo-secundaria: #1e1e1e;
+  --cor-fundo-card: #2a2a2a;
+  --cor-fundo-input: #212529;
+  --cor-texto: #adb5bd;
+  --cor-texto-forte: #e9ecef;
+  --cor-borda: #495057;
+  --cor-borda-suave: #343a40;
+  --cor-sucesso: #28a745;
+  --cor-texto-botao: #212529;
 }
 
-/* Breakpoints continuam como variáveis Sass, pois são usados em tempo de compilação */
+// Mapa de breakpoints para usar nas media queries
 $breakpoints: (
-  'sm': 576px,
-  'md': 768px,
-  'lg': 992px
+  'sm': 576px,  // Celulares em paisagem
+  'md': 768px,  // Tablets
+  'lg': 992px   // Desktops pequenos
 );
 

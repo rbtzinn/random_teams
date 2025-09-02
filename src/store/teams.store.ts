@@ -2,19 +2,12 @@ import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import { Player, generateBalancedTeams, parsePlayerList } from '../services/team.services';
 
-// Define a estrutura para os locks
-interface PlayerLocks {
-    [playerName: string]: number; // ex: { 'João': 0, 'Maria': 1 }
-}
-
-// ATUALIZAÇÃO: Adiciona as novas propriedades ao "contrato"
 export interface TeamsState {
     players: Player[];
     numTeams: number;
     teamNames: string[];
     teams: Player[][];
     seed: string;
-    locks: PlayerLocks; // Adicionado
     loadPlayersFromText: (text: string) => void;
     updatePlayerLevel: (playerIndex: number, newLevel: number) => void;
     clearPlayers: () => void;
@@ -23,22 +16,21 @@ export interface TeamsState {
     setTeamName: (index: number, newName: string) => void;
     generateTeams: () => void;
     setSeed: (seed: string) => void;
-    togglePlayerLock: (playerName: string, teamIndex: number) => void; // Adicionado
 }
 
-export const useTeamsStore = create(
-    persist<TeamsState>(
+// Usando a sintaxe recomendada do Zustand v4 para middleware
+export const useTeamsStore = create<TeamsState>()(
+    persist(
         (set, get) => ({
             players: [],
             numTeams: 2,
             teamNames: ['Time 1', 'Time 2'],
             teams: [],
             seed: '',
-            locks: {}, // Estado inicial
 
             loadPlayersFromText: (text) => {
                 const newPlayers = parsePlayerList(text);
-                set({ players: newPlayers, teams: [], locks: {} });
+                set({ players: newPlayers, teams: [] });
             },
 
             updatePlayerLevel: (playerIndex, newLevel) => {
@@ -52,14 +44,14 @@ export const useTeamsStore = create(
             },
             
             clearPlayers: () => {
-                set({ players: [], teams: [], seed: '', locks: {} });
+                set({ players: [], teams: [], seed: '' });
             },
 
             removePlayer: (index) => {
                 set((state) => {
                     const newPlayers = [...state.players];
                     newPlayers.splice(index, 1);
-                    return { players: newPlayers, teams: [], locks: {} };
+                    return { players: newPlayers, teams: [] };
                 });
             },
 
@@ -69,7 +61,6 @@ export const useTeamsStore = create(
                         numTeams: count,
                         teamNames: Array.from({ length: count }, (_, i) => `Time ${i + 1}`),
                         teams: [],
-                        locks: {}
                     });
                 }
             },
@@ -85,35 +76,22 @@ export const useTeamsStore = create(
             setSeed: (seed) => {
                 set({ seed });
             },
-            
-            togglePlayerLock: (playerName, teamIndex) => {
-                set((state) => {
-                    const newLocks = { ...state.locks };
-                    if (newLocks[playerName] === teamIndex) {
-                        delete newLocks[playerName]; // Destrava se já estiver travado no mesmo time
-                    } else {
-                        newLocks[playerName] = teamIndex; // Trava no novo time
-                    }
-                    return { locks: newLocks };
-                });
-            },
 
             generateTeams: () => {
-                const { players, numTeams, seed, locks } = get();
+                const { players, numTeams, seed } = get();
                 if (players.length >= numTeams) {
-                    const newTeams = generateBalancedTeams(players, numTeams, seed, locks);
+                    // CORREÇÃO: Chamada da função sem o 'locks'
+                    const newTeams = generateBalancedTeams(players, numTeams, seed);
                     set({ teams: newTeams });
                 }
             },
         }),
         {
             name: 'random-teams-storage',
-            // ATUALIZAÇÃO: Garante que o objeto retornado seja parcial de TeamsState
             partialize: (state) => ({
                 players: state.players,
                 numTeams: state.numTeams,
                 seed: state.seed,
-                // Não persistimos os locks para evitar inconsistências
             }),
         }
     )

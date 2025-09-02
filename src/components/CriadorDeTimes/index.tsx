@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { FaCopy, FaCheck, FaRandom, FaTrash, FaShareAlt, FaLock, FaUnlock } from 'react-icons/fa';
-import ButtonPadrao from '../ButtonPadrao/index.tsx';
-import TextoPadrao from '../TextoPadrao/index.tsx';
-import LevelSelector from '../LevelSelector/index.tsx';
-import AverageStars from '../AverageStars/index.tsx';
-import Modal from '../Modal/index.tsx';
+import { FaCopy, FaCheck, FaRandom, FaTrash, FaShareAlt } from 'react-icons/fa';
+import ButtonPadrao from '../ButtonPadrao/index';
+import TextoPadrao from '../TextoPadrao/index';
+import LevelSelector from '../LevelSelector/index';
+import AverageStars from '../AverageStars/index';
+import Modal from '../Modal/index';
 import { useTeamsStore } from '../../store/teams.store';
 import { formatTeamsForClipboard } from '../../services/team.services';
 import { stateToUrl, urlToState } from '../../services/serializer';
@@ -22,7 +22,6 @@ const CriadorDeTimes: React.FC = () => {
         teams,
         teamNames,
         seed,
-        locks,
         loadPlayersFromText,
         updatePlayerLevel,
         removePlayer,
@@ -31,12 +30,14 @@ const CriadorDeTimes: React.FC = () => {
         generateTeams,
         clearPlayers,
         setSeed,
-        togglePlayerLock,
     } = useTeamsStore();
 
     useEffect(() => {
         setTimeout(() => {
-            urlToState();
+            const stateFromUrl = urlToState();
+            if (stateFromUrl) {
+                useTeamsStore.setState(stateFromUrl);
+            }
         }, 0);
     }, []);
 
@@ -166,9 +167,6 @@ const CriadorDeTimes: React.FC = () => {
                                                                         <span className="member-name">{p.name}</span>
                                                                         <div className="member-info">
                                                                             <AverageStars average={p.level} />
-                                                                            <button onClick={() => togglePlayerLock(p.name, index)} className={`btn-lock ${locks[p.name] === index ? 'locked' : ''}`} aria-label={`Travar ${p.name}`}>
-                                                                                {locks[p.name] === index ? <FaLock /> : <FaUnlock />}
-                                                                            </button>
                                                                         </div>
                                                                     </li>
                                                                 ))}
