@@ -1,39 +1,51 @@
+// Define as "ferramentas" de cor que nosso site usará.
 :root {
   // Tema Claro (Padrão)
   --cor-primaria: #f0ad4e;
-  --cor-primaria-rgb: 240, 173, 78;
-  --cor-fundo: #f8f9fa;
-  --cor-fundo-secundaria: #e9ecef;
-  --cor-fundo-card: #ffffff;
-  --cor-fundo-input: #ffffff;
-  --cor-texto: #495057;
-  --cor-texto-forte: #212529;
-  --cor-borda: #ced4da;
-  --cor-borda-suave: #f1f3f5;
+  --cor-secundaria: #a5aaad;
   --cor-sucesso: #28a745;
-  --cor-texto-botao: #212529;
+
+  // Cores de texto ajustadas para preto
+  --cor-texto: #212529; // Preto suave
+  --cor-texto-forte: #000000; // Preto puro
+  --cor-texto-inverso: #ffffff;
+  
+  --cor-fundo: #f8f9fa;
+  --cor-fundo-card: #ffffff;
+  --cor-fundo-secundaria: #e9ecef;
+  --cor-fundo-input: #ffffff;
+
+  --cor-borda: #dee2e6;
+  --cor-borda-suave: #f1f1f1;
+
+  // Sombra com base na cor primária (para o foco dos inputs)
+  --cor-primaria-rgb: 240, 173, 78;
 }
 
 [data-theme='dark'] {
   // Tema Escuro
   --cor-primaria: #f0ad4e;
-  --cor-primaria-rgb: 240, 173, 78;
+  --cor-secundaria: #6c757d;
+  --cor-sucesso: #28a745;
+
+  // Cores de texto ajustadas para branco
+  --cor-texto: #f8f9fa; // Branco suave
+  --cor-texto-forte: #ffffff; // Branco puro
+  --cor-texto-inverso: #000000;
+
   --cor-fundo: #121212;
-  --cor-fundo-secundaria: #1e1e1e;
-  --cor-fundo-card: #2a2a2a;
-  --cor-fundo-input: #212529;
-  --cor-texto: #adb5bd;
-  --cor-texto-forte: #e9ecef;
+  --cor-fundo-card: #1e1e1e;
+  --cor-fundo-secundaria: #2c2c2c;
+  --cor-fundo-input: #2c2c2c;
+
   --cor-borda: #495057;
   --cor-borda-suave: #343a40;
-  --cor-sucesso: #28a745;
-  --cor-texto-botao: #212529;
 }
 
 // Mapa de breakpoints para usar nas media queries
 $breakpoints: (
-  'sm': 576px,  // Celulares em paisagem
-  'md': 768px,  // Tablets
-  'lg': 992px   // Desktops pequenos
+  'sm': 576px,
+  'md': 768px,
+  'lg': 992px
 );
 

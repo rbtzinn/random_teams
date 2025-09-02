@@ -119,9 +119,9 @@ const CriadorDeTimes: React.FC = () => {
                                             <div className="col-md-6 mb-3 mb-md-0">
                                                 <label className="form-label">Número de Times</label>
                                                 <div className="num-teams-control">
-                                                    <ButtonPadrao texto="−" onClick={() => setNumTeams(numTeams - 1)} disabled={numTeams <= 2} />
+                                                    <ButtonPadrao size="sm"  texto="−" onClick={() => setNumTeams(numTeams - 1)} disabled={numTeams <= 2} />
                                                     <span className="fw-bold fs-5">{numTeams}</span>
-                                                    <ButtonPadrao texto="+" onClick={() => setNumTeams(numTeams + 1)} disabled={numTeams >= players.length} />
+                                                    <ButtonPadrao size="sm" texto="+" onClick={() => setNumTeams(numTeams + 1)} disabled={numTeams >= players.length} />
                                                 </div>
                                             </div>
                                             <div className="col-md-6">

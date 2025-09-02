@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { FaStar } from 'react-icons/fa';
 import './styles.scss';
 
@@ -8,24 +8,40 @@ interface LevelSelectorProps {
 }
 
 const LevelSelector: React.FC<LevelSelectorProps> = ({ level, onChange }) => {
+    // Novo estado para controlar o efeito de hover
+    const [hoverLevel, setHoverLevel] = useState(0);
+
     return (
-        <div className="level-selector-stars">
+        <div 
+            className="level-selector-stars"
+            // Limpa o hover quando o mouse sai do container
+            onMouseLeave={() => setHoverLevel(0)}
+        >
             {[...Array(5)].map((_, index) => {
                 const currentLevel = index + 1;
+                
+                // Determina se a estrela deve estar preenchida (laranja)
+                const isFilled = currentLevel <= (hoverLevel || level);
+
                 return (
-                    <label key={currentLevel}>
+                    <label 
+                        key={currentLevel}
+                        // Define o nível de hover quando o mouse entra em uma estrela
+                        onMouseEnter={() => setHoverLevel(currentLevel)}
+                    >
                         <input
                             type="radio"
-                            name={`rating-${Math.random()}`} // Nome único para evitar conflitos
+                            name={`rating-${Math.random()}`}
                             value={currentLevel}
-                            onClick={() => onChange(currentLevel)}
+                            checked={currentLevel === level}
+                            onChange={() => onChange(currentLevel)}
                             style={{ display: 'none' }}
-                            defaultChecked={currentLevel === level}
                         />
                         <FaStar
                             className="star"
                             size={22}
-                            color={currentLevel <= level ? 'var(--cor-estrela-preenchida)' : 'var(--cor-estrela-vazia)'}
+                            // A cor agora é controlada pelo estado isFilled
+                            color={isFilled ? '#ffc107' : '#e4e5e9'}
                         />
                     </label>
                 );

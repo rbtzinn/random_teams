@@ -4,25 +4,13 @@
     cursor: pointer;
 
     .star {
+        // Adiciona uma transição suave para a cor e um pequeno "pulo" ao passar o mouse
         transition: color 0.2s ease-in-out, transform 0.1s ease-in-out;
     }
 
-    // Efeito para "apagar" as estrelas à direita da que está sob o mouse
-    label:hover ~ label .star,
+    // Aumenta ligeiramente a estrela sob o cursor para um feedback tátil
     label:hover .star {
-        color: #e4e5e9 !important;
-    }
-    
-    // Garante que após o clique, apenas as estrelas selecionadas fiquem acesas
-    input:checked ~ label .star {
-         color: #e4e5e9 !important;
-    }
-
-    // Acende todas as estrelas até a que está sob o mouse
-    &:hover {
-        label .star {
-            color: #ffc107;
-        }
+        transform: scale(1.2);
     }
 }
 
