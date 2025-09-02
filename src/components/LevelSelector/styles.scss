@@ -1,0 +1,28 @@
+.level-selector-stars {
+    display: flex;
+    gap: 0.25rem;
+    cursor: pointer;
+
+    .star {
+        transition: color 0.2s ease-in-out, transform 0.1s ease-in-out;
+    }
+
+    // Efeito para "apagar" as estrelas à direita da que está sob o mouse
+    label:hover ~ label .star,
+    label:hover .star {
+        color: #e4e5e9 !important;
+    }
+    
+    // Garante que após o clique, apenas as estrelas selecionadas fiquem acesas
+    input:checked ~ label .star {
+         color: #e4e5e9 !important;
+    }
+
+    // Acende todas as estrelas até a que está sob o mouse
+    &:hover {
+        label .star {
+            color: #ffc107;
+        }
+    }
+}
+

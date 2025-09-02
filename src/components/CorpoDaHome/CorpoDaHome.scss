@@ -1,22 +1,26 @@
 @use '../../assets/styles/variables' as *;
+@use '../../assets/styles/mixins' as *; // Importa nossa nova ferramenta
 
 .corpo-home-container {
     .hero-section {
-        background-color: $cor-secundaria;
-        color: $cor-texto;
+        background-color: var(--cor-fundo-secundaria);
+        color: var(--cor-texto);
         padding: 5rem 0;
         text-align: center;
+        transition: background-color 0.3s ease, color 0.3s ease;
 
         .hero-title {
             font-size: 3rem;
             font-weight: 700;
             margin-bottom: 1rem;
+            color: var(--cor-texto-forte);
         }
 
         .hero-subtitle {
             font-size: 1.25rem;
             max-width: 600px;
             margin: 0 auto 2rem;
+            color: var(--cor-texto);
         }
 
         .hero-actions {
@@ -27,18 +31,22 @@
     }
 
     .features-section {
+        background-color: var(--cor-fundo);
+        transition: background-color 0.3s ease;
+        
         .section-title {
             font-weight: 600;
-            color: $cor-texto;
+            color: var(--cor-texto-forte);
         }
 
         .feature-card {
-            background: white;
+            background: var(--cor-fundo-card);
             border-radius: 10px;
             padding: 2rem;
             height: 100%;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
-            transition: transform 0.3s ease;
+            transition: transform 0.3s ease, background-color 0.3s ease;
+            border: 1px solid var(--cor-borda);
 
             &:hover {
                 transform: translateY(-5px);
@@ -47,45 +55,61 @@
             .feature-icon {
                 font-size: 2.5rem;
                 margin-bottom: 1rem;
+                color: var(--cor-primaria);
             }
 
             h3 {
-                color: #3494E6;
+                color: var(--cor-primaria);
                 margin-bottom: 1rem;
             }
 
             p {
-                color: #7f8c8d;
+                color: var(--cor-texto);
             }
         }
     }
 
     .cta-section {
+        background-color: var(--cor-fundo-secundaria);
+        transition: background-color 0.3s ease, color 0.3s ease;
+
         h2 {
-            color: #2c3e50;
+            color: var(--cor-texto-forte);
         }
 
         p {
-            color: #7f8c8d;
+            color: var(--cor-texto);
         }
     }
 
-    @media (max-width: 768px) {
+    @include media-down('md') { // Agora funciona, pois foi importado
         .hero-section {
-            padding: 3rem 0;
+            padding: 3rem 1rem;
 
             .hero-title {
-                font-size: 2rem;
+                font-size: 2.2rem;
             }
 
             .hero-subtitle {
-                font-size: 1rem;
+                font-size: 1.1rem;
             }
 
             .hero-actions {
                 flex-direction: column;
                 align-items: center;
+                
+                > a {
+                    width: 80%;
+                    max-width: 300px;
+                }
+                .btn-primario {
+                    width: 100%;
+                }
             }
+        }
+
+        .features-section {
+            padding: 3rem 1rem;
         }
 
         .feature-card {
@@ -108,3 +132,4 @@
         transform: translateY(-5px) scale(1.1);
     }
 }
+

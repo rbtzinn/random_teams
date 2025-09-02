@@ -2,62 +2,70 @@
 @use '../../assets/styles/variables' as *;
 
 .btn-primario {
-    background-color: $cor-primaria;
-    border-color: color.adjust($cor-primaria, $lightness: -5%);
-    color: $cor-texto;
-    padding: 8px;
-    border: none;
-    border-radius: 10px;
+    background-color: var(--cor-primaria);
+    border: 1px solid var(--cor-primaria);
+    color: var(--cor-texto);
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    font-weight: 500;
 
     &:hover,
     &:focus {
-        background-color: color.adjust($cor-primaria, $lightness: -10%);
-        border-color: color.adjust($cor-primaria, $lightness: -15%);
-        color: $cor-texto;
-    }
-}
-
-.btn-outline-primario {
-    border-color: $cor-primaria;
-    color: $cor-primaria;
-    padding: 8px;
-    border: none;
-    border-radius: 10px;
-
-    &:hover,
-    &:focus {
-        background-color: $cor-primaria;
-        color: $cor-texto;
+        filter: brightness(0.9);
     }
 }
 
 .btn-secundario {
-    background-color: $cor-secundaria;
-    border-color: color.adjust($cor-secundaria, $lightness: -5%);
-    color: white;
-    padding: 8px;
-    border: none;
-    border-radius: 10px;
+    background-color: var(--cor-secundaria);
+    border: 1px solid var(--cor-secundaria);
+    color: #fff; // Texto em botões secundários geralmente é branco para contraste
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    font-weight: 500;
+
+     &:hover,
+    &:focus {
+        filter: brightness(0.9);
+    }
+}
+
+.btn-outline-primario {
+    background-color: transparent;
+    border: 1px solid var(--cor-primaria);
+    color: var(--cor-primaria);
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    font-weight: 500;
 
     &:hover,
     &:focus {
-        background-color: color.adjust($cor-secundaria, $lightness: -10%);
-        border-color: color.adjust($cor-secundaria, $lightness: -15%);
+        background-color: var(--cor-primaria);
+        color: var(--cor-texto);
     }
 }
 
 .btn-outline-secundario {
-    border-color: $cor-secundaria;
-    color: $cor-secundaria;
-    padding: 8px;
-    border: none;
-    border-radius: 10px;
+    background-color: transparent;
+    border: 1px solid var(--cor-secundaria);
+    color: var(--cor-secundaria);
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    font-weight: 500;
 
     &:hover,
     &:focus {
-        background-color: $cor-secundaria;
-        color: white;
+        background-color: var(--cor-secundaria);
+        color: #fff;
     }
+}
+
+.btn-success {
+    background-color: var(--cor-sucesso);
+    border: 1px solid var(--cor-sucesso);
+    color: var(--cor-texto-sucesso);
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    font-weight: 500;
 }
 
 .hover-scale {
@@ -67,3 +75,4 @@
         transform: scale(1.05);
     }
 }
+

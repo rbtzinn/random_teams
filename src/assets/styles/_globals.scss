@@ -1,13 +1,15 @@
-@use './variables' as *;
-
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    /* Adiciona uma transição suave para a troca de tema */
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
 }
 
 body {
     font-family: 'Segoe UI', sans-serif;
-    background-color: $cor-fundo;
-    color: #212529;
+    /* Usa as novas variáveis de CSS */
+    background-color: var(--cor-fundo);
+    color: var(--cor-texto);
 }
+

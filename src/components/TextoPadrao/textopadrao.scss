@@ -1,16 +1,21 @@
 @use '../../assets/styles/variables' as *;
 
 .text-custom {
-    color: $cor-texto;
+    // Agora usa a variável de CSS, que muda com o tema
+    color: var(--cor-texto); 
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    transition: color 0.3s ease; // Adiciona transição suave na troca de cor
 
     &.titulo {
         font-size: 2rem;
         font-weight: bold;
+        // Títulos geralmente têm uma cor mais forte
+        color: var(--cor-texto-forte);
     }
 
     &.subtitulo {
         font-size: 1.25rem;
-        color: $cor-secundaria;
+        // Subtítulos usam a cor de texto padrão, que é mais suave
+        color: var(--cor-texto);
     }
 }

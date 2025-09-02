@@ -1,33 +1,39 @@
+@use '../../assets/styles/variables' as *;
+@use '../../assets/styles/mixins' as *;
+
 .tournament-creator {
     min-height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: #f8f9fa;
+    background-color: var(--cor-fundo); // Corrigido
     padding: 2rem;
+    transition: background-color 0.3s ease;
 
     .tournament-card {
-        background-color: white;
+        background-color: var(--cor-fundo-card); // Corrigido
         border-radius: 1rem;
         padding: 2rem;
         box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
         width: 100%;
         max-width: 800px;
+        border: 1px solid var(--cor-borda); // Adicionado para consistência
+        transition: background-color 0.3s ease, border-color 0.3s ease;
 
         .tournament-title {
-            color: #2c3e50;
+            color: var(--cor-texto-forte); // Corrigido
             margin-bottom: 0.5rem;
             text-align: center;
         }
 
         .tournament-subtitle {
-            color: #7f8c8d;
+            color: var(--cor-texto); // Corrigido
             margin-bottom: 2rem;
             text-align: center;
         }
 
         .section-title {
-            color: #2c3e50;
+            color: var(--cor-texto-forte); // Corrigido
             margin: 1.5rem 0 1rem;
         }
 
@@ -48,29 +54,36 @@
             margin-bottom: 1.5rem;
 
             .team-item {
-                background-color: #f0ad4e;
-                color: white;
+                background-color: var(--cor-primaria); // Corrigido
+                color: var(--cor-texto-forte); // Corrigido
                 padding: 0.5rem 1rem;
                 border-radius: 0.5rem;
                 display: flex;
                 align-items: center;
                 gap: 0.5rem;
+                font-weight: 500;
 
                 .remove-btn {
                     background: none;
                     border: none;
-                    color: white;
+                    color: var(--cor-texto-forte); // Corrigido
                     font-weight: bold;
                     cursor: pointer;
                     padding: 0 0.25rem;
                     font-size: 1.25rem;
                     line-height: 1;
+                    opacity: 0.7;
+                    transition: opacity 0.2s ease;
+                    
+                    &:hover {
+                        opacity: 1;
+                    }
                 }
             }
         }
 
         .round-title {
-            color: #f0ad4e;
+            color: var(--cor-primaria); // Corrigido
             text-align: center;
             margin-bottom: 1.5rem;
         }
@@ -82,10 +95,12 @@
             margin-bottom: 2rem;
 
             .match-card {
-                background-color: #f8f9fa;
+                background-color: var(--cor-fundo); // Corrigido
                 border-radius: 0.5rem;
                 padding: 1rem;
                 box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+                border: 1px solid var(--cor-borda); // Adicionado para consistência
+                transition: background-color 0.3s ease, border-color 0.3s ease;
 
                 .match-teams {
                     display: flex;
@@ -96,27 +111,27 @@
                     button {
                         flex: 1;
                         padding: 0.75rem;
-                        border: 2px solid #f0ad4e;
+                        border: 2px solid var(--cor-primaria);
                         border-radius: 0.5rem;
-                        background-color: white;
-                        color: #2c3e50;
+                        background-color: transparent; // Corrigido
+                        color: var(--cor-primaria); // Corrigido
                         font-weight: 500;
                         cursor: pointer;
                         transition: all 0.2s;
 
                         &:hover {
-                            background-color: #f0ad4e;
-                            color: white;
+                            background-color: var(--cor-primaria);
+                            color: var(--cor-texto-forte);
                         }
                     }
 
                     span {
-                        color: #7f8c8d;
+                        color: var(--cor-texto); // Corrigido
                         font-weight: bold;
                     }
 
                     .bye {
-                        color: #f0ad4e;
+                        color: var(--cor-primaria); // Corrigido
                         font-style: italic;
                     }
                 }
@@ -132,13 +147,13 @@
                     }
 
                     .winner {
-                        background-color: #5cb85c;
+                        background-color: #28a745; // Mantido verde para destaque
                         color: white;
                         font-weight: bold;
                     }
 
                     .bye {
-                        color: #f0ad4e;
+                        color: var(--cor-primaria); // Corrigido
                         font-style: italic;
                     }
                 }
@@ -152,7 +167,7 @@
     }
 }
 
-@media (max-width: 768px) {
+@include media-down('md') {
     .tournament-creator {
         padding: 1rem;
 

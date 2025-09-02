@@ -1,4 +1,36 @@
-$cor-primaria: #f0ad4e; 
-$cor-fundo: #f8f9fa;
-$cor-secundaria: #a5aaad;
-$cor-texto: #212529;
+/* Definição de cores como CSS Custom Properties.
+  Isso permite que o navegador troque as cores dinamicamente.
+*/
+:root {
+  /* Tema Claro (Padrão) */
+  --cor-primaria: #f0ad4e;
+  --cor-fundo: #f8f9fa;
+  --cor-fundo-card: #ffffff;
+  --cor-secundaria: #6c757d;
+  --cor-texto: #212529;
+  --cor-texto-suave: #6c757d;
+  --cor-borda-suave: #dee2e6;
+  --cor-sucesso: #198754;
+  --cor-texto-sucesso: #ffffff;
+}
+
+[data-theme="dark"] {
+  /* Tema Escuro (ativado quando o <html> tem o atributo data-theme="dark") */
+  --cor-primaria: #f0ad4e;
+  --cor-fundo: #121212;
+  --cor-fundo-card: #1e1e1e;
+  --cor-secundaria: #89929a;
+  --cor-texto: #e9ecef;
+  --cor-texto-suave: #adb5bd;
+  --cor-borda-suave: #495057;
+  --cor-sucesso: #20c997;
+  --cor-texto-sucesso: #121212;
+}
+
+/* Breakpoints continuam como variáveis Sass, pois são usados em tempo de compilação */
+$breakpoints: (
+  'sm': 576px,
+  'md': 768px,
+  'lg': 992px
+);
+
