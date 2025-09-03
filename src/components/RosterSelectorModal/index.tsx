@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback, useRef } from "react";
 import { FaTimes, FaUserPlus } from "react-icons/fa";
 import { useAuth } from "../../context/AuthContext.tsx";
 import { useUIStore } from "../../store/ui.store.ts";
@@ -20,6 +20,7 @@ const RosterSelectorModal: React.FC = () => {
   );
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState("");
+  const selectAllCheckboxRef = useRef<HTMLInputElement>(null);
 
   const loadRoster = useCallback(async () => {
     if (!user) return;
@@ -41,6 +42,14 @@ const RosterSelectorModal: React.FC = () => {
     }
   }, [isRosterSelectorModalOpen, loadRoster]);
 
+  useEffect(() => {
+    if (selectAllCheckboxRef.current) {
+      const isIndeterminate =
+        selectedPlayers.size > 0 && selectedPlayers.size < roster.length;
+      selectAllCheckboxRef.current.indeterminate = isIndeterminate;
+    }
+  }, [selectedPlayers, roster]);
+
   const handlePlayerToggle = (playerId: string) => {
     const newSelection = new Set(selectedPlayers);
     if (newSelection.has(playerId)) {
@@ -49,6 +58,15 @@ const RosterSelectorModal: React.FC = () => {
       newSelection.add(playerId);
     }
     setSelectedPlayers(newSelection);
+  };
+
+  const handleSelectAllToggle = () => {
+    if (selectedPlayers.size === roster.length) {
+      setSelectedPlayers(new Set());
+    } else {
+      const allPlayerIds = new Set(roster.map((player) => player.id));
+      setSelectedPlayers(allPlayerIds);
+    }
   };
 
   const handleAddSelectedPlayers = () => {
@@ -63,6 +81,8 @@ const RosterSelectorModal: React.FC = () => {
   if (!isRosterSelectorModalOpen) {
     return null;
   }
+
+  const isAllSelected = roster.length > 0 && selectedPlayers.size === roster.length;
 
   return (
     <div className="roster-selector-overlay" onClick={closeRosterSelectorModal}>
@@ -88,6 +108,16 @@ const RosterSelectorModal: React.FC = () => {
 
           {!isLoading && roster.length > 0 && (
             <div className="player-selection-list">
+              {/* Add "Select All" checkbox here */}
+              <div className="player-item select-all-item" onClick={handleSelectAllToggle}>
+                <input
+                  type="checkbox"
+                  ref={selectAllCheckboxRef}
+                  checked={isAllSelected}
+                  onChange={() => {}}
+                />
+                <span className="player-name">Selecionar todos</span>
+              </div>
               {roster.map((player) => (
                 <div
                   key={player.id}

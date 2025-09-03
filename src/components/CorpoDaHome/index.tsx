@@ -3,6 +3,7 @@ import ButtonPadrao from '../ButtonPadrao/index.tsx';
 import './CorpoDaHome.scss';
 import { ChevronUp } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import FeatureCard from '../FeatureCard/index.tsx'; // Importe o novo componente
 
 export const CorpoDaHome: React.FC = () => {
     return (
@@ -40,27 +41,27 @@ export const CorpoDaHome: React.FC = () => {
 
                     <div className="row">
                         <div className="col-md-4 mb-4">
-                            <div className="feature-card">
-                                <div className="feature-icon">🎯</div>
-                                <h3>Balanceamento Automático</h3>
-                                <p>Algoritmo inteligente para criar times equilibrados</p>
-                            </div>
+                            <FeatureCard 
+                                icon="🎯"
+                                title="Balanceamento Automático"
+                                description="Algoritmo inteligente para criar times equilibrados"
+                            />
                         </div>
 
                         <div className="col-md-4 mb-4">
-                            <div className="feature-card">
-                                <div className="feature-icon">🔄</div>
-                                <h3>Multiplas Modalidades</h3>
-                                <p>Funciona para futebol, vôlei, basquete e mais</p>
-                            </div>
+                            <FeatureCard 
+                                icon="🔄"
+                                title="Multiplas Modalidades"
+                                description="Funciona para futebol, vôlei, basquete e mais"
+                            />
                         </div>
 
                         <div className="col-md-4 mb-4">
-                            <div className="feature-card">
-                                <div className="feature-icon">📊</div>
-                                <h3>Estatísticas</h3>
-                                <p>Acompanhe o histórico de seus jogadores</p>
-                            </div>
+                            <FeatureCard 
+                                icon="📊"
+                                title="Estatísticas"
+                                description="Acompanhe o histórico de seus jogadores"
+                            />
                         </div>
                     </div>
                 </div>
@@ -85,4 +86,3 @@ export const CorpoDaHome: React.FC = () => {
         </div>
     );
 };
-

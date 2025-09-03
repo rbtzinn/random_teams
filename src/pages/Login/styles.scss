@@ -9,7 +9,7 @@
     min-height: 100vh;
     padding: 2rem;
     background-color: var(--cor-fundo);
-    perspective: 1000px; // Cria a "profundidade" para o efeito 3D
+    // REMOVIDO: perspective: 1000px;
 }
 
 // Container do card que define a altura e perspectiva
@@ -18,33 +18,6 @@
     max-width: 450px;
     min-height: 550px;
     position: relative;
-    // ALTERADO: Adicionamos 'ease-in-out' para suavizar o movimento
-    transition: transform 0.8s ease-in-out; 
-    transform-style: preserve-3d;
-
-    // Quando a classe is-flipped é adicionada, o card gira
-    &.is-flipped .login-card-inner {
-        transform: rotateY(180deg);
-    }
-}
-
-// Container interno que realmente gira
-.login-card-inner {
-    position: relative;
-    width: 100%;
-    height: 100%;
-    // ALTERADO: Adicionamos 'ease-in-out' aqui também para consistência
-    transition: transform 0.8s ease-in-out;
-    transform-style: preserve-3d;
-}
-
-
-// Estilo para as duas faces do card (frente e verso)
-.card-face {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    backface-visibility: hidden; // Esconde a face que está virada para trás
     background-color: var(--cor-fundo-card);
     padding: 2.5rem;
     border-radius: 12px;
@@ -56,9 +29,57 @@
     }
 }
 
-// O verso do card começa já girado
-.card-back {
-    transform: rotateY(180deg);
+// REMOVIDO: Container interno que realmente gira
+// .login-card-inner { ... }
+
+// REMOVIDO: Estilo para as duas faces do card (frente e verso)
+// .card-face { ... }
+
+// REMOVIDO: O verso do card começa já girado
+// .card-back { ... }
+
+.form-message {
+    text-align: center;
+    color: var(--cor-texto-secundaria);
+    font-size: 0.9rem;
+    margin-bottom: 1.5rem;
+}
+
+.forgot-password {
+    text-align: right;
+    width: 100%;
+    margin-top: 0.5rem;
+    margin-bottom: 1.5rem;
+
+    .forgot-password-btn {
+        background: none;
+        border: none;
+        color: var(--cor-primaria);
+        font-size: 0.85rem;
+        cursor: pointer;
+        transition: opacity 0.2s ease;
+
+        &:hover {
+            opacity: 0.8;
+        }
+    }
+}
+
+// Novo wrapper para o conteúdo do formulário
+.form-content {
+    transition: opacity 0.3s ease-in-out;
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 .tab-buttons {
@@ -159,4 +180,3 @@
     color: var(--cor-sucesso-texto);
     background-color: var(--cor-sucesso-fundo);
 }
-

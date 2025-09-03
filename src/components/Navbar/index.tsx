@@ -1,13 +1,13 @@
 import React from "react";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import "./navbar.scss";
-import { FaTh, FaUsers, FaTrophy, FaListAlt } from "react-icons/fa";
+import { FaTh, FaUsers, FaTrophy, FaListAlt , FaBars } from "react-icons/fa";
 import ThemeToggle from "../ThemeToggle";
 import { useAuth } from "../../context/AuthContext";
 import { signOut } from "firebase/auth";
 import { auth } from "../../firebase/config";
 import { useUIStore } from "../../store/ui.store";
-import { FaBars } from "react-icons/fa";
+
 
 const Navbar: React.FC = () => {
   const { user } = useAuth();
