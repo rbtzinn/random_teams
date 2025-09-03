@@ -5,34 +5,52 @@ import { useTheme } from './hooks/useTheme';
 import HomePage from './pages/Home';
 import LoginPage from './pages/Login';
 import CriarTorneio from './components/CriadorDeTorneios';
-import CriadorDeTimes from './components/CriadorDeTimes';
+import CriarDeTimes from './components/CriadorDeTimes';
 import Navbar from './components/Navbar';
+import { useUIStore } from './store/ui.store';
+import RosterManager from './components/RosterManager';
 
-function App() {
-  useTheme(); // Ativa o hook de tema globalmente
-  const { user, loading } = useAuth(); // Corrigido de isLoading para loading
+const App: React.FC = () => {
+    useTheme();
+    const { user, loading } = useAuth();
+    const isRosterModalOpen = useUIStore((state) => state.isRosterModalOpen);
 
-  // Mostra um spinner ou tela de carregamento enquanto o estado de auth é verificado
-  if (loading) { // Corrigido de isLoading para loading
+    if (loading) {
+        return <div className="loading-spinner">Carregando...</div>;
+    }
+
     return (
-      <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh', backgroundColor: '#222' }}>
-        <p style={{ color: 'white', fontSize: '1.5rem' }}>Carregando...</p>
-      </div>
+        <Router>
+            <Navbar />
+            {/* O modal do elenco agora é renderizado aqui, no topo de tudo */}
+            {isRosterModalOpen && user && <RosterManager />}
+            
+            <Routes>
+                <Route path="/" element={<HomePage />} />
+                <Route path="/login" element={!user ? <LoginPage /> : <Navigate to="/" />} />
+                <Route path="/criar-times" element={user ? <CriarDeTimes /> : <Navigate to="/login" />} />
+                <Route path="/criar-torneio" element={user ? <CriarTorneio /> : <Navigate to="/login" />} />
+                <Route path="*" element={<Navigate to="/" />} />
+            </Routes>
+        </Router>
     );
-  }
+};
 
-  return (
-    <Router>
-      <Navbar />
-      <Routes>
-        <Route path="/" element={user ? <HomePage /> : <Navigate to="/login" />} />
-        <Route path="/criar-times" element={user ? <CriadorDeTimes /> : <Navigate to="/login" />} />
-        <Route path="/criar-torneio" element={user ? <CriarTorneio /> : <Navigate to="/login" />} />
-        <Route path="/login" element={!user ? <LoginPage /> : <Navigate to="/" />} />
-      </Routes>
-    </Router>
-  );
+const spinnerStyles = `
+.loading-spinner {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    font-size: 1.5rem;
+    background-color: var(--cor-fundo);
+    color: var(--cor-texto);
 }
+`;
+const styleSheet = document.createElement("style");
+styleSheet.type = "text/css";
+styleSheet.innerText = spinnerStyles;
+document.head.appendChild(styleSheet);
 
 export default App;
 

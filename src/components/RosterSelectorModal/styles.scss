@@ -1,0 +1,122 @@
+@use '../../assets/styles/variables' as *;
+@use '../../assets/styles/mixins' as *;
+
+.roster-selector-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1050;
+    backdrop-filter: blur(5px);
+}
+
+.roster-selector-modal {
+    background-color: var(--cor-fundo-card);
+    border: 1px solid var(--cor-borda-suave);
+    border-radius: 12px;
+    width: 90%;
+    max-width: 500px;
+    max-height: 80vh;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    animation: fadeIn 0.3s ease-out;
+
+    .modal-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1rem 1.5rem;
+        border-bottom: 1px solid var(--cor-borda-suave);
+        
+        h3 {
+            margin: 0;
+            color: var(--cor-texto-forte);
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: var(--cor-texto);
+            cursor: pointer;
+            opacity: 0.7;
+            transition: all 0.2s ease;
+            &:hover {
+                opacity: 1;
+                transform: scale(1.1) rotate(90deg);
+                color: var(--cor-perigo);
+            }
+        }
+    }
+
+    .modal-body {
+        padding: 1.5rem;
+        overflow-y: auto;
+
+        .empty-state {
+            text-align: center;
+            padding: 2rem;
+            color: var(--cor-texto);
+            p {
+                margin: 0;
+            }
+        }
+
+        .player-selection-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+
+            .player-item {
+                display: flex;
+                align-items: center;
+                gap: 1rem;
+                padding: 0.75rem 1rem;
+                border-radius: 8px;
+                background-color: var(--cor-fundo);
+                border: 1px solid var(--cor-borda);
+                cursor: pointer;
+                transition: all 0.2s ease;
+
+                &:hover {
+                    background-color: var(--cor-fundo-secundaria);
+                    border-color: var(--cor-primaria);
+                }
+
+                input[type="checkbox"] {
+                    width: 20px;
+                    height: 20px;
+                    accent-color: var(--cor-primaria);
+                }
+
+                .player-name {
+                    flex-grow: 1;
+                    font-weight: 500;
+                    color: var(--cor-texto-forte);
+                }
+
+                .player-level {
+                    color: var(--cor-texto);
+                    font-size: 0.9rem;
+                }
+            }
+        }
+    }
+
+    .modal-footer {
+        padding: 1rem 1.5rem;
+        border-top: 1px solid var(--cor-borda-suave);
+        display: flex;
+        justify-content: flex-end;
+
+        button {
+            width: 100%;
+        }
+    }
+}

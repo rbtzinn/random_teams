@@ -11,6 +11,7 @@
     .team-creator-card {
         background-color: var(--cor-fundo-card);
         border-radius: 12px;
+        padding: 2rem;
         border: 1px solid var(--cor-borda-suave);
         transition: background-color 0.3s ease, border-color 0.3s ease;
         
@@ -23,18 +24,16 @@
         }
     }
 
-    // Estilos para os campos de formulário (textarea, input)
+    // Estilos para os campos de formulário
     .form-control {
         background-color: var(--cor-fundo-input);
         color: var(--cor-texto);
         border: 1px solid var(--cor-borda);
         transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
-
         &::placeholder {
             color: var(--cor-texto);
             opacity: 0.6;
         }
-
         &:focus {
             background-color: var(--cor-fundo-input);
             color: var(--cor-texto);
@@ -47,7 +46,7 @@
         textarea {
             resize: none;
             &::-webkit-scrollbar { width: 8px; }
-            &::-webkit-scrollbar-track { background: #f1f1f1; border-radius: 10px; }
+            &::-webkit-scrollbar-track { background: var(--cor-fundo-secundaria); border-radius: 10px; }
             &::-webkit-scrollbar-thumb { background: #ccc; border-radius: 10px; }
             &::-webkit-scrollbar-thumb:hover { background: #aaa; }
         }
@@ -92,70 +91,42 @@
         }
     }
 
-    // Novo estilo para o controle de número de times
     .num-teams-control {
         display: flex;
         align-items: center;
         justify-content: center;
-        gap: 0.5rem;
-        background-color: var(--cor-fundo-secundaria);
-        padding: 0.5rem;
-        border-radius: 50px; // Deixa o container arredondado
-        border: 1px solid var(--cor-borda);
-        max-width: 180px;
-        margin: 0 auto; // Centraliza o controle
-
-        .btn {
-            border-radius: 50%; // Deixa os botões redondos
-            width: 32px;
-            height: 32px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.2rem;
-            line-height: 1;
-            padding: 0;
-        }
-
-        .num-teams-display {
-            font-weight: bold;
-            font-size: 1.1rem;
-            color: var(--cor-texto-forte);
-            min-width: 80px; // Garante espaço para o texto
-            text-align: center;
-        }
+        gap: 1rem; // Aumentado para o estilo original
+    }
+    
+    .settings-section .form-control {
+        text-align: center;
     }
 
     .teams-section {
         .team-card {
             height: 100%;
-            padding: 1rem;
-            border-radius: 10px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            padding: 1.5rem; // Aumentado para o estilo original
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
             transition: transform 0.3s ease, background-color 0.3s ease, border-color 0.3s ease;
             background-color: var(--cor-fundo-card);
-            border: 1px solid var(--cor-borda-suave);
-
-            &:hover {
-                transform: translateY(-5px);
-            }
+            border-bottom: 4px solid;
 
             .team-header-container {
                 display: flex;
                 align-items: center;
                 gap: 0.5rem;
                 margin-bottom: 1rem;
-                flex-wrap: wrap; // Permite quebra de linha
+                flex-wrap: wrap;
                 
                 .team-header {
                     flex-grow: 1;
                     border: none;
                     background-color: transparent;
                     font-weight: bold;
-                    font-size: 1.2rem;
+                    font-size: 1.25rem; // Aumentado para o estilo original
                     color: var(--cor-texto-forte);
-                    // Adiciona o espaçamento interno (respiro)
-                    padding: 0.5rem; 
+                    padding: 0.25rem;
                     &:focus {
                         box-shadow: none;
                         background-color: var(--cor-fundo-secundaria);
@@ -184,6 +155,7 @@
                     border-radius: 6px;
                     display: flex;
                     align-items: center;
+                    justify-content: space-between;
                     transition: all 0.2s ease;
                     color: var(--cor-texto);
 
@@ -191,17 +163,13 @@
                         background-color: var(--cor-fundo-secundaria);
                         transform: translateX(5px);
                     }
-
-                    .member-number {
-                        font-weight: bold;
-                        margin-right: 0.5rem;
-                        color: var(--cor-secundaria);
+                    
+                    .member-name {
+                        font-weight: 500;
                     }
 
-                    .player-level {
-                        margin-left: auto;
-                        font-size: 0.85rem;
-                        opacity: 0.7;
+                    .member-info {
+                        font-size: 1rem;
                     }
                 }
             }
@@ -209,12 +177,10 @@
     }
 }
 
-// Cores das bordas dos cards
+// Cores das bordas dos cards (seu estilo original)
 $team-colors: #FF5733, #33A1FF, #33FF57, #FF33A1, #A133FF, #33FFF5, #FFD733, #FF8C33;
 
 .team-card {
-    border-bottom: 4px solid;
-
     @for $i from 1 through list.length($team-colors) {
         &.team-#{$i} {
             border-bottom-color: list.nth($team-colors, $i);

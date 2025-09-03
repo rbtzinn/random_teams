@@ -1,30 +1,32 @@
 import React from 'react';
 import { Link, NavLink, useNavigate } from 'react-router-dom';
 import './navbar.scss';
-import { FaTh, FaUsers, FaTrophy } from 'react-icons/fa';
+import { FaTh, FaUsers, FaTrophy, FaListAlt } from 'react-icons/fa';
 import ThemeToggle from '../ThemeToggle';
 import { useAuth } from '../../context/AuthContext';
 import { signOut } from 'firebase/auth';
 import { auth } from '../../firebase/config';
+import { useUIStore } from '../../store/ui.store';
 
 const Navbar: React.FC = () => {
     const { user } = useAuth();
     const navigate = useNavigate();
+    const { openRosterModal } = useUIStore();
 
     const handleLogout = async () => {
         try {
             await signOut(auth);
-            navigate('/login'); // Redireciona para a página de login após o logout
+            navigate('/login');
         } catch (error) {
             console.error("Erro ao fazer logout:", error);
         }
     };
 
-    // Função para fechar o menu mobile ao clicar em um link
     const closeMobileMenu = () => {
         const navbarCollapse = document.querySelector('.navbar-collapse');
         if (navbarCollapse?.classList.contains('show')) {
-            navbarCollapse.classList.remove('show');
+            const toggler = document.querySelector('.navbar-toggler') as HTMLElement;
+            if(toggler) toggler.click();
         }
     };
 
@@ -51,8 +53,13 @@ const Navbar: React.FC = () => {
                 <div className="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul className="navbar-nav ms-auto mb-2 mb-lg-0 align-items-center gap-3">
                         {user ? (
-                            // Links para usuário logado
                             <>
+                                <li className="nav-item">
+                                    <button className="nav-link as-button" onClick={() => { openRosterModal(); closeMobileMenu(); }}>
+                                        <FaListAlt />
+                                        <span>Meu Elenco</span>
+                                    </button>
+                                </li>
                                 <li className="nav-item">
                                     <NavLink className="nav-link" to="/criar-times" onClick={closeMobileMenu}>
                                         <FaUsers />
@@ -79,7 +86,6 @@ const Navbar: React.FC = () => {
                                 </li>
                             </>
                         ) : (
-                            // Link para usuário deslogado
                              <li className="nav-item">
                                 <NavLink className="nav-link" to="/" onClick={closeMobileMenu}>
                                         <FaTh />
@@ -96,6 +102,30 @@ const Navbar: React.FC = () => {
         </nav>
     );
 };
+
+const styles = `
+.nav-link.as-button {
+    background: none;
+    border: none;
+    padding: 0.5rem 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--cor-texto);
+    font-weight: 500;
+    border-radius: 0.5rem;
+    transition: all 0.3s ease;
+}
+.nav-link.as-button:hover {
+    color: var(--cor-primaria);
+    background-color: var(--cor-fundo);
+}
+`;
+const styleSheet = document.createElement("style");
+styleSheet.type = "text/css";
+styleSheet.innerText = styles;
+document.head.appendChild(styleSheet);
+
 
 export default Navbar;
 

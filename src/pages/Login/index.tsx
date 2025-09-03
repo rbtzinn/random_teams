@@ -48,55 +48,67 @@ const LoginPage: React.FC = () => {
   }, [resendCooldown]);
 
   const handleRegister = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setError("");
-    setSuccessMessage("");
+  e.preventDefault();
+  setError("");
+  setSuccessMessage("");
 
-    if (password.length < 6) {
-      setError("A senha deve ter no mínimo 6 caracteres.");
-      return;
-    }
-    if (password !== confirmPassword) {
-      setError("As senhas não coincidem.");
-      return;
-    }
+  if (password.length < 6) {
+    setError("A senha deve ter no mínimo 6 caracteres.");
+    return;
+  }
+  if (password !== confirmPassword) {
+    setError("As senhas não coincidem.");
+    return;
+  }
 
+  try {
+    // 1. Cria o usuário
+    const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+    const firebaseUser = userCredential.user;
+
+    // 2. Atualiza o profile (displayName)
     try {
-      const userCredential = await createUserWithEmailAndPassword(
-        auth,
-        email,
-        password
-      );
-      const firebaseUser = userCredential.user;
-
       await updateProfile(firebaseUser, { displayName: name });
+    } catch {
+      console.warn("⚠️ Falha ao atualizar o nome de exibição");
+    }
 
+    // 3. Salva no Firestore
+    try {
       await setDoc(doc(db, "users", firebaseUser.uid), {
         displayName: name,
         email: firebaseUser.email,
       });
-
-      // 👇 ESTA LINHA É A RESPONSÁVEL POR ENVIAR O E-MAIL
-      await sendEmailVerification(firebaseUser);
-
-      // E ESTA MENSAGEM CONFIRMA QUE O E-MAIL FOI ENVIADO
-      setSuccessMessage(
-        "Registro realizado! Um e-mail de verificação foi enviado."
-      );
-
-      // Limpa os campos do formulário
-      setName("");
-      setEmail("");
-      setPassword("");
-      setConfirmPassword("");
-    } catch (err: any) {
-      setError(
-        err.code === "auth/email-already-in-use"
-          ? "Este e-mail já está em uso."
-          : "Ocorreu um erro ao registrar."
-      );
+    } catch {
+      console.warn("⚠️ Falha ao salvar no Firestore");
     }
-  };
+
+    // 4. Envia email de verificação
+    try {
+      await firebaseUser.reload();
+      await sendEmailVerification(firebaseUser);
+      setSuccessMessage(
+        `Registro realizado! Um e-mail de verificação foi enviado para ${firebaseUser.email}. 
+         Verifique sua caixa de entrada ou a pasta de spam.`
+      );
+    } catch {
+      setError("Conta criada, mas não foi possível enviar o e-mail de verificação.");
+    }
+
+    // 5. Limpa os campos do formulário
+    setName("");
+    setEmail("");
+    setPassword("");
+    setConfirmPassword("");
+  } catch (err: any) {
+    setError(
+      err.code === "auth/email-already-in-use"
+        ? "Este e-mail já está em uso."
+        : "Ocorreu um erro ao registrar. Tente novamente."
+    );
+  }
+};
+
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
