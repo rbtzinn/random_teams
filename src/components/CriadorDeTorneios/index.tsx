@@ -1,14 +1,14 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import ButtonPadrao from '../ButtonPadrao';
-import InputPadrao from '../InputPadrao';
+import ButtonPadrao from '../ButtonPadrao/index.tsx';
+import InputPadrao from '../InputPadrao.tsx';
 import './CriarTorneio.scss';
 
+// Interfaces (sem alteração)
 interface Team {
     name: string;
     players: string[];
 }
-
 interface Match {
     team1: string;
     team2: string;
@@ -24,24 +24,22 @@ const CriarTorneio = () => {
     const [currentRound, setCurrentRound] = useState(0);
     const [tournamentStarted, setTournamentStarted] = useState(false);
 
+    // Funções de handle (sem alteração)
     const handleAddTeam = () => {
         if (currentTeam.trim() && teams.length < 8) { 
             setTeams([...teams, { name: currentTeam.trim(), players: [] }]);
             setCurrentTeam('');
         }
     };
-
     const handleRemoveTeam = (index: number) => {
         const newTeams = [...teams];
         newTeams.splice(index, 1);
         setTeams(newTeams);
     };
-
     const startTournament = () => {
         if (teams.length >= 2 && tournamentName.trim()) {
             const shuffledTeams = [...teams].sort(() => 0.5 - Math.random());
             const initialMatches: Match[] = [];
-
             for (let i = 0; i < shuffledTeams.length; i += 2) {
                 if (shuffledTeams[i + 1]) {
                     initialMatches.push({
@@ -56,19 +54,16 @@ const CriarTorneio = () => {
                     });
                 }
             }
-
             setMatches(initialMatches);
             setTournamentStarted(true);
             setCurrentRound(1);
         }
     };
-
     const setWinner = (matchIndex: number, winner: string) => {
         const updatedMatches = [...matches];
         updatedMatches[matchIndex].winner = winner;
         setMatches(updatedMatches);
     };
-
     const advanceRound = () => {
         const winners = matches
             .filter(match => match.winner)
@@ -76,7 +71,6 @@ const CriarTorneio = () => {
 
         if (winners.length >= 2) {
             const newMatches: Match[] = [];
-
             for (let i = 0; i < winners.length; i += 2) {
                 if (winners[i + 1]) {
                     newMatches.push({
@@ -91,12 +85,10 @@ const CriarTorneio = () => {
                     });
                 }
             }
-
             setMatches(newMatches);
             setCurrentRound(currentRound + 1);
         }
     };
-
     const finishTournament = () => {
         if (matches.length === 1 && matches[0].winner) {
             alert(`Torneio "${tournamentName}" finalizado! Campeão: ${matches[0].winner}`);
@@ -112,50 +104,56 @@ const CriarTorneio = () => {
                         <h1 className="tournament-title">Criar Torneio</h1>
                         <p className="tournament-subtitle">Organize um torneio entre times pré-definidos</p>
 
-                        <InputPadrao
-                            placeholder="Nome do Torneio"
-                            value={tournamentName}
-                            onChange={(e) => setTournamentName(e.target.value)}
-                        />
-
-                        <h5 className="section-title">Times Participantes</h5>
-                        <div className="team-input-container">
+                        <div className="form-section">
                             <InputPadrao
-                                placeholder="Nome do Time"
-                                value={currentTeam}
-                                onChange={(e) => setCurrentTeam(e.target.value)}
-                                onKeyPress={(e) => e.key === 'Enter' && handleAddTeam()}
+                                label="Nome do Torneio"
+                                placeholder="Ex: Torneio de Fim de Semana"
+                                value={tournamentName}
+                                onChange={(e) => setTournamentName(e.target.value)}
                             />
+
+                            <h5 className="section-title">Times Participantes</h5>
+                            <div className="team-input-container">
+                                <InputPadrao
+                                    placeholder="Nome do Time"
+                                    value={currentTeam}
+                                    onChange={(e) => setCurrentTeam(e.target.value)}
+                                    onKeyPress={(e) => e.key === 'Enter' && handleAddTeam()}
+                                />
+                                <ButtonPadrao
+                                    texto="Adicionar"
+                                    onClick={handleAddTeam}
+                                    disabled={!currentTeam.trim() || teams.length >= 8}
+                                />
+                            </div>
+
+                            <div className="teams-list">
+                                {teams.map((team, index) => (
+                                    <div key={index} className="team-item">
+                                        <span>{team.name}</span>
+                                        <button
+                                            onClick={() => handleRemoveTeam(index)}
+                                            className="remove-btn"
+                                        >
+                                            &times;
+                                        </button>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+
+                        <div className="actions">
                             <ButtonPadrao
-                                texto="Adicionar Time"
-                                onClick={handleAddTeam}
-                                disabled={!currentTeam.trim() || teams.length >= 8}
+                                texto="Iniciar Torneio"
+                                onClick={startTournament}
+                                disabled={teams.length < 2 || !tournamentName.trim()}
+                                className="btn-lg"
                             />
                         </div>
-
-                        <div className="teams-list">
-                            {teams.map((team, index) => (
-                                <div key={index} className="team-item">
-                                    <span>{team.name}</span>
-                                    <button
-                                        onClick={() => handleRemoveTeam(index)}
-                                        className="remove-btn"
-                                    >
-                                        ×
-                                    </button>
-                                </div>
-                            ))}
-                        </div>
-
-                        <ButtonPadrao
-                            texto="Iniciar Torneio"
-                            onClick={startTournament}
-                            disabled={teams.length < 2 || !tournamentName.trim()}
-                            className="mt-4"
-                        />
                     </>
                 ) : (
                     <>
+                        {/* Seção do Torneio Iniciado (sem alteração) */}
                         <h1 className="tournament-title">{tournamentName}</h1>
                         <h3 className="round-title">Rodada {currentRound}</h3>
 
@@ -164,22 +162,24 @@ const CriarTorneio = () => {
                                 <div key={index} className="match-card">
                                     {match.winner ? (
                                         <div className="match-result">
-                                            <span className={match.winner === match.team1 ? 'winner' : ''}>
+                                            <span className={`team-name ${match.winner === match.team1 ? 'winner' : ''}`}>
                                                 {match.team1}
                                             </span>
-                                            {match.team2 !== 'BYE' && (
-                                                <span className={match.winner === match.team2 ? 'winner' : ''}>
+                                            <span className="vs-separator">vs</span>
+                                            {match.team2 !== 'BYE' ? (
+                                                <span className={`team-name ${match.winner === match.team2 ? 'winner' : ''}`}>
                                                     {match.team2}
                                                 </span>
+                                            ) : (
+                                                <span className="bye">BYE</span>
                                             )}
-                                            {match.team2 === 'BYE' && <span className="bye">BYE</span>}
                                         </div>
                                     ) : (
                                         <div className="match-teams">
                                             <button onClick={() => setWinner(index, match.team1)}>
                                                 {match.team1}
                                             </button>
-                                            <span>vs</span>
+                                            <span className='vs-separator'>vs</span>
                                             {match.team2 !== 'BYE' ? (
                                                 <button onClick={() => setWinner(index, match.team2)}>
                                                     {match.team2}
@@ -217,3 +217,4 @@ const CriarTorneio = () => {
 };
 
 export default CriarTorneio;
+

@@ -1,6 +1,5 @@
 import React from 'react';
-// Caminho ajustado para ser mais compatível com o bundler
-import ButtonPadrao from '../ButtonPadrao';
+import ButtonPadrao from '../ButtonPadrao/index.tsx';
 import './CorpoDaHome.scss';
 import { ChevronUp } from 'lucide-react';
 import { Link } from 'react-router-dom';
@@ -67,7 +66,6 @@ export const CorpoDaHome: React.FC = () => {
                 </div>
             </section>
 
-            {/* A classe bg-light foi removida daqui */}
             <section className="cta-section py-5">
                 <div className="container text-center">
                     <h2 className="mb-4">Pronto para começar?</h2>

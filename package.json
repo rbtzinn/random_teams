@@ -10,9 +10,10 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@dataconnect/generated": "file:src/dataconnect-generated",
     "@types/lz-string": "^1.3.34",
     "bootstrap": "^5.3.3",
-    "firebase": "^10.12.2",
+    "firebase": "^10.14.1",
     "lucide-react": "^0.542.0",
     "lz-string": "^1.5.0",
     "react": "^18.3.1",

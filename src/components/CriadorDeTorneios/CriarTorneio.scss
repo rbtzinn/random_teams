@@ -5,45 +5,58 @@
     min-height: 100vh;
     display: flex;
     justify-content: center;
-    align-items: center;
-    background-color: var(--cor-fundo); // Corrigido
+    align-items: flex-start; // Alinha no topo para formulários longos
+    background-color: var(--cor-fundo);
     padding: 2rem;
     transition: background-color 0.3s ease;
 
     .tournament-card {
-        background-color: var(--cor-fundo-card); // Corrigido
-        border-radius: 1rem;
+        background-color: var(--cor-fundo-card);
+        border-radius: 12px;
         padding: 2rem;
-        box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
+        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
         width: 100%;
-        max-width: 800px;
-        border: 1px solid var(--cor-borda); // Adicionado para consistência
+        max-width: 700px;
+        border: 1px solid var(--cor-borda-suave);
         transition: background-color 0.3s ease, border-color 0.3s ease;
 
+        @include media-down('sm') {
+            padding: 1.5rem;
+        }
+
         .tournament-title {
-            color: var(--cor-texto-forte); // Corrigido
+            color: var(--cor-texto-forte);
             margin-bottom: 0.5rem;
             text-align: center;
+            font-weight: 700;
         }
 
         .tournament-subtitle {
-            color: var(--cor-texto); // Corrigido
-            margin-bottom: 2rem;
+            color: var(--cor-texto);
+            margin-bottom: 2.5rem;
             text-align: center;
         }
 
         .section-title {
-            color: var(--cor-texto-forte); // Corrigido
-            margin: 1.5rem 0 1rem;
+            color: var(--cor-texto-forte);
+            margin: 2rem 0 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--cor-primaria);
+            display: inline-block;
         }
 
         .team-input-container {
             display: flex;
             gap: 1rem;
-            margin-bottom: 1rem;
+            margin-bottom: 1.5rem;
+
+            .form-control-container {
+                flex-grow: 1;
+            }
 
             button {
                 white-space: nowrap;
+                height: 50px; // Alinha altura com o input
             }
         }
 
@@ -51,70 +64,76 @@
             display: flex;
             flex-wrap: wrap;
             gap: 0.75rem;
-            margin-bottom: 1.5rem;
+            margin-bottom: 2rem;
+            min-height: 40px; // Garante espaço mesmo vazio
 
             .team-item {
-                background-color: var(--cor-primaria); // Corrigido
-                color: var(--cor-texto-forte); // Corrigido
+                background-color: var(--cor-fundo-secundaria);
+                color: var(--cor-texto-forte);
                 padding: 0.5rem 1rem;
-                border-radius: 0.5rem;
+                border-radius: 50px; // Formato de "chip"
                 display: flex;
                 align-items: center;
                 gap: 0.5rem;
                 font-weight: 500;
+                border: 1px solid var(--cor-borda);
 
                 .remove-btn {
                     background: none;
                     border: none;
-                    color: var(--cor-texto-forte); // Corrigido
-                    font-weight: bold;
+                    color: var(--cor-texto);
                     cursor: pointer;
-                    padding: 0 0.25rem;
-                    font-size: 1.25rem;
+                    padding: 0;
+                    font-size: 1rem;
                     line-height: 1;
-                    opacity: 0.7;
-                    transition: opacity 0.2s ease;
+                    opacity: 0.6;
+                    transition: all 0.2s ease;
                     
                     &:hover {
                         opacity: 1;
+                        color: var(--cor-perigo); // Vermelho para exclusão
+                        transform: scale(1.2);
                     }
                 }
             }
         }
 
         .round-title {
-            color: var(--cor-primaria); // Corrigido
+            color: var(--cor-primaria);
             text-align: center;
-            margin-bottom: 1.5rem;
+            margin: 2rem 0 1.5rem;
+            font-weight: 600;
         }
 
         .matches-container {
             display: flex;
             flex-direction: column;
-            gap: 1rem;
+            gap: 1.25rem;
             margin-bottom: 2rem;
 
             .match-card {
-                background-color: var(--cor-fundo); // Corrigido
-                border-radius: 0.5rem;
-                padding: 1rem;
-                box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
-                border: 1px solid var(--cor-borda); // Adicionado para consistência
-                transition: background-color 0.3s ease, border-color 0.3s ease;
+                background-color: var(--cor-fundo);
+                border-radius: 8px;
+                padding: 1.5rem;
+                border: 1px solid var(--cor-borda);
+                transition: all 0.3s ease;
+
+                &:hover {
+                    border-color: var(--cor-primaria);
+                }
 
                 .match-teams {
-                    display: flex;
-                    justify-content: space-between;
+                    display: grid;
+                    grid-template-columns: 1fr auto 1fr;
                     align-items: center;
                     gap: 1rem;
 
                     button {
-                        flex: 1;
                         padding: 0.75rem;
-                        border: 2px solid var(--cor-primaria);
-                        border-radius: 0.5rem;
-                        background-color: transparent; // Corrigido
-                        color: var(--cor-primaria); // Corrigido
+                        border: 1px solid var(--cor-borda);
+                        border-radius: 6px;
+                        background-color: var(--cor-fundo-card);
+                        color: var(--cor-texto-forte);
                         font-weight: 500;
                         cursor: pointer;
                         transition: all 0.2s;
@@ -122,39 +141,43 @@
                         &:hover {
                             background-color: var(--cor-primaria);
                             color: var(--cor-texto-forte);
+                            border-color: var(--cor-primaria);
+                            transform: translateY(-2px);
                         }
                     }
 
-                    span {
-                        color: var(--cor-texto); // Corrigido
-                        font-weight: bold;
+                    .vs-separator {
+                        color: var(--cor-texto);
+                        font-weight: 500;
+                        opacity: 0.7;
                     }
 
                     .bye {
-                        color: var(--cor-primaria); // Corrigido
+                        color: var(--cor-texto);
                         font-style: italic;
+                        opacity: 0.8;
+                        text-align: center;
                     }
                 }
 
                 .match-result {
-                    display: flex;
-                    flex-direction: column;
-                    gap: 0.5rem;
+                    display: grid;
+                    grid-template-columns: 1fr auto 1fr;
+                    align-items: center;
+                    gap: 1rem;
+                    font-weight: 500;
 
-                    span {
+                    .team-name {
                         padding: 0.5rem;
-                        border-radius: 0.25rem;
+                        border-radius: 6px;
+                        opacity: 0.6;
                     }
-
+                    
                     .winner {
-                        background-color: #28a745; // Mantido verde para destaque
-                        color: white;
+                        background-color: var(--cor-sucesso-fundo);
+                        color: var(--cor-sucesso);
                         font-weight: bold;
-                    }
-
-                    .bye {
-                        color: var(--cor-primaria); // Corrigido
-                        font-style: italic;
+                        opacity: 1;
                     }
                 }
             }
@@ -167,25 +190,28 @@
     }
 }
 
-@include media-down('md') {
+@include media-down('sm') {
     .tournament-creator {
         padding: 1rem;
 
         .tournament-card {
-            padding: 1.5rem;
+            padding: 1rem;
         }
-
+        
         .team-input-container {
             flex-direction: column;
         }
 
-        .match-teams {
-            flex-direction: column;
-            gap: 0.5rem !important;
+        .match-card {
+            .match-teams, .match-result {
+                grid-template-columns: 1fr;
+                gap: 0.5rem !important;
 
-            button {
-                width: 100%;
+                .vs-separator {
+                    display: none; 
+                }
             }
         }
     }
 }
+
